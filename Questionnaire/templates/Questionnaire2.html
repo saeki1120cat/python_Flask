@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link rel="stylesheet" href="/static/main.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title> 問卷調查</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+   body{
+     margin:0px;
+     padding:0px;
+     background:rgb(255,223,217) url("./image/background2.png") center center fixed no-repeat;　//設定背景圖片的呈現方式
+     background-size: cover;
+    }
+
+  </style>
+ </head>
+ <body>
+ <div style="text-align:center;"><h1>  歡迎加入掌握食積 </h1> </div>
+   <div style="background-color:rgb(255,223,217); width:500px; height:700px;margin:0 auto;">
+    <form method='post' action="/">
+     <p align="left"> 姓名：<input type="text"  id=myId name="username"/> </p>
+
+     <p align="left"> e-mail：<input type="text"  id=myemail name="email"/> </p>
+
+     <p align="left"> 1.請問您的性別是：
+     <select id=mygender  name="gender">
+        <option value="1" selected> 男</option>
+        <option value="0"> 女</option>
+     </select>
+     </p>
+
+     <p align="left">
+     2.請問您的年齡是:
+      <select id=myage  name="age">
+        <option value="1" selected> 17歲以下</option>
+        <option value="2">18~29歲</option>
+        <option value="3">30~39歲</option>
+        <option value="4">40~49歲</option>
+        <option value="5">50歲或以上</option>
+     </select>
+     </p>
+
+     <p align="left">
+     3.請問您的身高(cm)是 : <input type="number" id=myheight name="height"/>
+     </p>
+
+     <p align="left">
+     4.請問您的體重(kg)是 : <input type="number" id=myweight name="weight"/>
+     </p>
+
+     <p align="left">
+     5.請輸入您不能吃的食物或不喜愛的食物 : <input type="text" id=mydisliked name="disliked"/>
+     </p>
+
+     <p align="left">
+     6.請問您平時有注意養生? :
+      <select id=myhealth  name="health">
+        <option value="1" selected>是</option>
+        <option value="0">否</option>
+     </select>
+     </p>
+
+     <p align="left">
+     7.請問您平時有避免吃油炸或含油高的食物（如腰果、花生、瓜子) ? :
+      <select id=myfried  name="fried">
+        <option value="1" selected>是</option>
+        <option value="0">否</option>
+     </select>
+     </p>
+
+     <p align="left">
+     8.請問您平時有吃蔬菜或水果的習慣 ? :
+     <select id=myvegetable  name="vegetable">
+        <option value="1" selected>是</option>
+        <option value="0">否</option>
+     </select>
+     </p>
+
+     <p align="left">
+     9.請問您平時工作的活動量 :
+     <select id=myactivity  name="activity">
+        <option value="1" selected>輕度活動</option>
+        <option value="2">中度活動</option>
+        <option value="3">高度活動</option>
+     </select>
+     </p>
+
+
+     <p align="center">
+<!--     <input type="submit" /> </p>-->
+     <button class="btn btn-success btn-block"
+       id="sure">確定</button>
+    </form>
+   </div>
+   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+   <script>
+    function initializeLiff(myLiffId) {
+     liff
+      .init({
+       liffId: myLiffId
+      });
+     }
+   function pushMsg(myId,myemail,mygender,myage,myheight,myweight,mydisliked,myhealth,myfried,myvegetable,myactivity) {
+    if (myId==''||myemail==''||mygender==''||myage==''||myheight==''||myweight==''||mydisliked==''||myhealth=''||myfried=''||myvegetable==''||myactivity=='') {
+     alert('每個項目都必須輸入!');
+     return;
+    }
+    var msg = "###";
+    msg = msg + myId + "/";
+    msg = msg + myemail + "/";
+    msg = msg + mygender + "/";
+    msg = msg + myage + "/";
+    msg = msg + myheight + "/";
+    msg = msg + myweight + "/";
+    msg = msg + mydisliked + "/";
+    msg = msg + myhealth + "/";
+    msg = msg + myfried + "/";
+    msg = msg + myvegetable + "/";
+    msg = msg + myactivity;
+    liff.sendMessages([
+     { type:'text'
+       text: 'msg'
+     }
+     ])
+     .then(() => {
+      liff.closeWindow();
+     });
+   }
+   $(document).ready(function (){
+    initializeLiff('{{liffid}}')
+    $('#sure').click(function (e) {
+     pushMsg($('#myId').val(),$('#myemail').val(),
+     $('#mygender').val(),$('#myage').val(),$('#myheight').val()
+     ,$('#myweight').val(),$('#mydisliked').val(),$('#myhealth').val(),
+     $('myfried').val(),$('myvegetable').val(),$('#myactivity').val());
+    });
+   });
+  </script>
+ </body>
+</html>
